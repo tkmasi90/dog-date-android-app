@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AkunTaskukirjat</string>
+    <string name="add_word">Lisää sana</string>
+    <string name="add_Button">Lisää taskukirja</string>
+    <string name="del_all_Button">Poista kaikki taskukirjat</string>
+    <string name="del_Button">Poista</string>
+    <string name="empty_not_saved">Virheellinen numero tai nimi</string>
+</resources>
