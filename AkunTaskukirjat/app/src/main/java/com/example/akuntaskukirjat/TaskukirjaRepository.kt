@@ -6,10 +6,15 @@ import androidx.lifecycle.LiveData
 class TaskukirjaRepository(application : Application) {
     val db = TaskukirjaRoomDatabase.getDatabase(application)
     val mTaskukirjaDao = db.taskukirjaDao()
-    val mAllTaskukirjas = mTaskukirjaDao.getNumberOrderedTaskukirjas()
+    val mAllTaskukirjasNumber = mTaskukirjaDao.getNumberOrderedTaskukirjas()
+    val mAllTaskukirjasName = mTaskukirjaDao.getNameOrderedTaskukirjas()
 
-    fun getAllTaskukirjas(): LiveData<List<Taskukirja>> {
-        return mAllTaskukirjas
+    fun getAllTaskukirjas(sortByName: Boolean): LiveData<List<Taskukirja>> {
+        return if(sortByName) {
+            mAllTaskukirjasName
+        } else {
+            mAllTaskukirjasNumber
+        }
     }
     fun insert(taskukirja: Taskukirja) {
         TaskukirjaRoomDatabase.databaseWriteExecutor.execute {

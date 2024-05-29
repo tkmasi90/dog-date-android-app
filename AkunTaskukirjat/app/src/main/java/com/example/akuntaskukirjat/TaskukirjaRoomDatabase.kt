@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-@Database(entities = [Taskukirja::class], version = 2, exportSchema = false)
+@Database(entities = [Taskukirja::class], version = 3, exportSchema = false)
 abstract class TaskukirjaRoomDatabase : RoomDatabase() {
 
     abstract fun taskukirjaDao(): TaskukirjaDao

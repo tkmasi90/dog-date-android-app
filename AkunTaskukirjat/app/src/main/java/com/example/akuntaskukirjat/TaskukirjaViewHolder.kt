@@ -15,7 +15,7 @@ class TaskukirjaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private var delButton : Button = itemView.findViewById(R.id.buttonDelete)
 
     fun bind(taskukirja: Taskukirja) {
-        TaskukirjaNroItemView.text = taskukirja.numero
+        TaskukirjaNroItemView.text = taskukirja.numero.toString()
         TaskukirjaNimiItemView.text = taskukirja.nimi
     }
 

@@ -29,8 +29,6 @@ class TaskukirjaListAdapter(
         holder.bind(current)
 
         holder.itemView.setOnClickListener { v ->
-            taskukirja = current
-
             val dialogView = LayoutInflater.from(v.context).inflate(R.layout.custom_dialog, null)
             val dialogTitle = dialogView.findViewById<TextView>(R.id.dialog_title)
             val dialogContent = dialogView.findViewById<TextView>(R.id.dialog_content)
@@ -56,12 +54,28 @@ class TaskukirjaListAdapter(
             dialog.show()
         }
 
-        val button: Button = holder.getDelButton()
-        button.setOnClickListener { view ->
-            taskukirja = current
-            viewModel.deleteTaskukirja(current)
-            Snackbar.make(view, "Poistettu: ${current.numero} - ${current.nimi}", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        val delButton = holder.getDelButton()
+        delButton.setOnClickListener { v ->
+            val dialogView = LayoutInflater.from(v.context).inflate(R.layout.custom_dialog, null)
+            // Confirm deletion
+            val builder = AlertDialog.Builder(v.context)
+                .setView(dialogView)
+
+            val dialog = builder.create()
+            AlertDialog.Builder(v.context)
+                .setMessage("Haluatko varmasti poistaa tämän taskukirjan?")
+                .setPositiveButton("Kyllä") { _, _ ->
+                    taskukirja = current
+                    viewModel.deleteTaskukirja(current)
+                    Snackbar.make(v, "Poistettu: ${current.numero} - ${current.nimi}", Snackbar.LENGTH_LONG
+                    )
+                        .setAction("Action", null).show()
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Ei") { _, _ ->
+                    // Do nothing
+                }
+                .show()
         }
     }
 

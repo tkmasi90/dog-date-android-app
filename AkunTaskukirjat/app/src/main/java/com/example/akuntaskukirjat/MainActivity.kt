@@ -1,17 +1,22 @@
 package com.example.akuntaskukirjat
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 val nimi = split[1]
                 val painos = split[2]
                 val pvm = split[3]
-                val taskukirja = Taskukirja(nro, nimi, painos, pvm)
+                val taskukirja = Taskukirja(nro.toInt(), nimi, painos, pvm)
                 mTaskukirjaViewModel.insert(taskukirja)
             }
         } else {
@@ -43,12 +48,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        mTaskukirjaViewModel = ViewModelProvider(this).get(TaskukirjaViewModel::class.java)
+        mTaskukirjaViewModel = ViewModelProvider(this)[TaskukirjaViewModel::class.java]
         val adapter = TaskukirjaListAdapter(mTaskukirjaViewModel, TaskukirjaListAdapter.TaskukirjaDiff())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        mTaskukirjaViewModel.getAllTaskukirjas()?.observe(this) { taskukirjas ->
+        mTaskukirjaViewModel.getAllTaskukirjas().observe(this) { taskukirjas ->
             adapter.submitList(taskukirjas)
         }
 
@@ -66,7 +71,36 @@ class MainActivity : AppCompatActivity() {
 
         val buttonPoistaKaikki = findViewById<Button>(R.id.buttonPoistaKaikki)
         buttonPoistaKaikki.setOnClickListener {
-            mTaskukirjaViewModel.deleteAll()
+            val dialogView = LayoutInflater.from(it.context).inflate(R.layout.custom_dialog, null)
+            // Confirm deletion
+            val builder = AlertDialog.Builder(it.context)
+                .setView(dialogView)
+
+            val dialog = builder.create()
+
+            AlertDialog.Builder(it.context)
+                .setMessage("Haluatko varmasti poistaa kaikki taskukirjat?")
+                .setPositiveButton("Kyllä") { _, _ ->
+                    mTaskukirjaViewModel.deleteAll()
+                    Snackbar.make(it, "Poistettu kaikki taskukirjat", Snackbar.LENGTH_LONG
+                    )
+                        .setAction("Action", null).show()
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Ei") { _, _ ->
+                    // Do nothing
+                }
+                .show()
+        }
+
+        val sortNumButton = findViewById<ImageView>(R.id.sortByNumber)
+        sortNumButton.setOnClickListener {
+            mTaskukirjaViewModel.setSortByName(false)
+        }
+
+        val sortNameButton = findViewById<ImageView>(R.id.sortByName)
+        sortNameButton.setOnClickListener {
+            mTaskukirjaViewModel.setSortByName(true)
         }
 
     }
