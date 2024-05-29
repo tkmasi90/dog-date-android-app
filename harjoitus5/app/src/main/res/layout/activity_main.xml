@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/divide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/divideFirst"
+        app:layout_constraintEnd_toStartOf="@+id/divideSecond"
+        app:layout_constraintStart_toEndOf="@+id/divideFirst" />
+
+    <EditText
+        android:id="@+id/divideFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:text=""
+        android:textIsSelectable="true"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/multiplyFirst" />
+
+    <TextView
+        android:id="@+id/multiply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="x"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/multiplyFirst"
+        app:layout_constraintEnd_toStartOf="@+id/multiplySecond"
+        app:layout_constraintStart_toEndOf="@+id/multiplyFirst" />
+
+    <TextView
+        android:id="@+id/divideResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="0"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/divideSecond"
+        app:layout_constraintStart_toEndOf="@+id/yht4" />
+
+    <TextView
+        android:id="@+id/yht4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="="
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/divideSecond"
+        app:layout_constraintStart_toEndOf="@+id/divideSecond" />
+
+    <Button
+        android:id="@+id/buttonDivide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/laske"
+        app:layout_constraintStart_toEndOf="@+id/divideResult"
+        app:layout_constraintTop_toBottomOf="@+id/buttonMultiply" />
+
+    <EditText
+        android:id="@+id/divideSecond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:text=""
+        android:textIsSelectable="true"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/plus"
+        app:layout_constraintTop_toBottomOf="@+id/multiplySecond" />
+
+    <EditText
+        android:id="@+id/multiplySecond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:text=""
+        android:textIsSelectable="true"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/plus"
+        app:layout_constraintTop_toBottomOf="@+id/subtractSecond" />
+
+    <Button
+        android:id="@+id/buttonMultiply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/laske"
+        app:layout_constraintStart_toEndOf="@+id/multiplyResult"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSubtract" />
+
+    <TextView
+        android:id="@+id/multiplyResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="0"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/multiplySecond"
+        app:layout_constraintStart_toEndOf="@+id/yht3" />
+
+    <TextView
+        android:id="@+id/yht3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="="
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/multiplySecond"
+        app:layout_constraintStart_toEndOf="@+id/multiplySecond" />
+
+    <EditText
+        android:id="@+id/multiplyFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:text=""
+        android:textIsSelectable="true"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtractFirst" />
+
+    <TextView
+        android:id="@+id/yht2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="="
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/subtractSecond"
+        app:layout_constraintStart_toEndOf="@+id/subtractSecond" />
+
+    <TextView
+        android:id="@+id/subtractResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="0"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/subtractSecond"
+        app:layout_constraintStart_toEndOf="@+id/yht2" />
+
+    <EditText
+        android:id="@+id/subtractFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:text=""
+        android:textIsSelectable="true"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sumFirst" />
+
+    <Button
+        android:id="@+id/buttonSubtract"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/laske"
+        app:layout_constraintStart_toEndOf="@+id/subtractResult"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSum" />
+
+    <TextView
+        android:id="@+id/minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/subtractFirst"
+        app:layout_constraintEnd_toStartOf="@+id/subtractSecond"
+        app:layout_constraintStart_toEndOf="@+id/subtractFirst" />
+
+    <EditText
+        android:id="@+id/subtractSecond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:text=""
+        android:textIsSelectable="true"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/plus"
+        app:layout_constraintTop_toBottomOf="@+id/sumSecond" />
+
+    <EditText
+        android:id="@+id/sumSecond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:text=""
+        android:textIsSelectable="true"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/plus"
+        app:layout_constraintTop_toBottomOf="@+id/headerLaskukone" />
+
+    <TextView
+        android:id="@+id/headerLaskukone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#03A9F4"
+        android:clickable="false"
+        android:padding="8dp"
+        android:text="@string/nelilaskin_2024"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:barrierMargin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/sumFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:text=""
+        android:textIsSelectable="true"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerLaskukone" />
+
+    <TextView
+        android:id="@+id/plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="+"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sumFirst"
+        app:layout_constraintEnd_toStartOf="@+id/sumSecond"
+        app:layout_constraintStart_toEndOf="@+id/sumFirst" />
+
+    <TextView
+        android:id="@+id/yht"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="="
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sumSecond"
+        app:layout_constraintStart_toEndOf="@+id/sumSecond" />
+
+    <TextView
+        android:id="@+id/sumResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="0"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sumSecond"
+        app:layout_constraintStart_toEndOf="@+id/yht" />
+
+    <Button
+        android:id="@+id/buttonSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/laske"
+        app:layout_constraintStart_toEndOf="@+id/sumResult"
+        app:layout_constraintTop_toBottomOf="@+id/headerLaskukone" />
+
+    <Button
+        android:id="@+id/logButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logiin"
+        app:layout_constraintEnd_toEndOf="@+id/buttonSum"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
