@@ -12,7 +12,7 @@ import java.util.Calendar
 class NewTaskukirjaActivity : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_REPLY = "com.example.android.roomtesti3112022.REPLY"
+        const val EXTRA_REPLY = "com.example.android.akuntaskukirjat"
     }
 
     private lateinit var mEditNumeroView: EditText

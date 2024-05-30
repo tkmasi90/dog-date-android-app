@@ -21,14 +21,15 @@
 
     <TextView
         android:id="@+id/textViewnimi"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="3dp"
+        android:layout_marginEnd="32dp"
         android:clickable="false"
         android:contextClickable="false"
-        android:maxLength="35"
         android:textColor="#000000"
+        app:layout_constraintEnd_toStartOf="@+id/buttonDelete"
         app:layout_constraintStart_toEndOf="@+id/textViewNro"
         app:layout_constraintTop_toTopOf="parent" />
 

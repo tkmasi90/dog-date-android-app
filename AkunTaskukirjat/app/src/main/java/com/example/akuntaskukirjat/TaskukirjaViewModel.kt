@@ -33,8 +33,10 @@ class TaskukirjaViewModel(application: Application) : AndroidViewModel(applicati
     fun setSortByName(sortByName: Boolean) {
         this.sortByName.value = sortByName
         if (sortByName) {
+            Log.d("TaskukirjaViewModel", "SortByName = true")
             _mAllTaskukirjas.value = mRepository.getAllTaskukirjas(true).value
         } else {
+            Log.d("TaskukirjaViewModel", "SortByName = false")
             _mAllTaskukirjas.value = mRepository.getAllTaskukirjas(false).value
         }
     }
@@ -51,10 +53,12 @@ class TaskukirjaViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun deleteAll() {
+        Log.d("TaskukirjaViewModel", "Delete All tapahtui")
         mRepository.deleteAll()
     }
 
     fun deleteTaskukirja(taskukirja: Taskukirja) {
+        Log.d("TaskukirjaViewModel", "Delete Taskukirja tapahtui")
         mRepository.deleteTaskukirja(taskukirja)
     }
 }
