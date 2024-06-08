@@ -1,5 +1,7 @@
 package com.example.harjoitus11
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BadgeDefaults.containerColor
@@ -13,32 +15,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+/* Palauttaa tiedot sensorista. Sensorin eri value arvot esitetään yksinkertaisuuden vuoksi
+*  vain numeroa käyttäen, koska erilaisia sensoridatoja on niin paljon  */
 @Composable
 fun SensorItem(
     sensorData : SensorData
 ) {
-    Card(modifier = Modifier.fillMaxWidth()
-                            .padding(4.dp),
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight()
+        .padding(8.dp),
             elevation = CardDefaults.elevatedCardElevation(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiary),
             shape = CardDefaults.outlinedShape
     ) {
-        when (sensorData) {
-            is SensorData.XYZSensorData -> {
-                Text(modifier = Modifier.padding(8.dp),
-                    text =
-                        "Type: ${sensorData.type}\n" +
-                        "X: ${sensorData.x}\n" +
-                        "Y: ${sensorData.y}\n" +
-                        "Z: ${sensorData.z}"
-                )
-            }
-            is SensorData.OneSensorData -> {
-                Text(modifier = Modifier.padding(8.dp),
-                    text =
-                    "Type: ${sensorData.type}\n"+
-                    "Value: ${sensorData.value}")
-            }
+        Text(modifier = Modifier.padding(top = 8.dp, start = 16.dp),
+            text =
+            "Type: ${sensorData.type}\n")
+        for((num, data) in sensorData.dataList.withIndex()) {
+            Text(modifier = Modifier.padding(start = 16.dp),
+                text =
+                "Data $num: $data")
         }
+        Spacer(modifier = Modifier.padding(bottom = 8.dp))
     }
 }
