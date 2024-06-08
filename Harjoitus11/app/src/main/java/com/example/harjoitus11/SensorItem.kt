@@ -33,9 +33,11 @@ fun SensorItem(
             text =
             "Type: ${sensorData.type}\n")
         for((num, data) in sensorData.dataList.withIndex()) {
-            Text(modifier = Modifier.padding(start = 16.dp),
-                text =
-                "Data $num: $data")
+            if(data != 0.toFloat()) {
+                Text(modifier = Modifier.padding(start = 16.dp),
+                    text =
+                    "Data $num: $data")
+            }
         }
         Spacer(modifier = Modifier.padding(bottom = 8.dp))
     }
