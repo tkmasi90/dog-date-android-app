@@ -73,6 +73,10 @@ class StepCounterViewModel(application: Application): AndroidViewModel(applicati
         } ?: Log.e("StepCounterViewModel", "Step Detector Sensor is null")
     }
 
+    fun stopListening(sensorManager: SensorManager) {
+        sensorManager.unregisterListener(this)
+    }
+
     // Tallennetaan nykyinen askelmäärä historiaan
     fun saveSteps() {
         val date = dateFormat.format(Date())
