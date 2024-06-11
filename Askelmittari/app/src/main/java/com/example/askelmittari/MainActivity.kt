@@ -133,7 +133,8 @@ fun StepCounter(viewModel: StepCounterViewModel) {
                     fontWeight = FontWeight.Bold)},
 
                 navigationIcon = {
-                    IconButton(onClick = { context.startActivity(Intent(context,
+                    // Historia-nappi, näyttää tallennetut askelmittaukset
+                    FilledIconButton(onClick = { context.startActivity(Intent(context,
                         SavedStepsViewActivity::class.java)) }) {
                         Icon(
                             painterResource(R.drawable.baseline_history_24),
@@ -208,7 +209,7 @@ fun logPermissions(hasPermissions: Boolean, stepCounterSensor: Sensor?, stepDete
     Log.d("Permissions", "TYPE_STEP_DETECTOR: ${stepDetectorSensor != null}")
 }
 
-// Tuo sisällön näkymään
+// Tuodaan sisältö näkymään
 @Composable
 fun GetContent(viewModel: StepCounterViewModel) {
     AskelmittariTheme {
@@ -255,7 +256,6 @@ fun AskelmittariPreview() {
                         fontWeight = FontWeight.Bold)},
 
                     navigationIcon = {
-                        // Historia-nappi, näyttää tallennetut askelmittaukset
                         FilledIconButton(onClick = {  }) {
                             Icon(
                                 painterResource(R.drawable.baseline_history_24),
@@ -270,7 +270,6 @@ fun AskelmittariPreview() {
                     contentPadding = BottomAppBarDefaults.ContentPadding)
                 {
                     Spacer(modifier = Modifier.weight(0.5f))
-                    // Play-nappi. Muuttaa running arvon trueksi ja käynnistää näin askelten mittauksen
                     FilledIconButton(onClick = {  }) {
                         Icon(
                             Icons.Filled.PlayArrow,
@@ -279,7 +278,6 @@ fun AskelmittariPreview() {
                     }
                     Spacer(modifier = Modifier.weight(1f))
 
-                    // Nollausnappi, joka asettaa askelmään nollaksi
                     FilledIconButton(onClick = {  }) {
                         Icon(
                             painterResource(R.drawable.baseline_refresh_24),
@@ -288,7 +286,6 @@ fun AskelmittariPreview() {
                     }
                     Spacer(modifier = Modifier.weight(1f))
 
-                    // Save-nappi. Tallentaa nykyisen askelmittauksen
                     FilledIconButton(onClick = { }
                     ) {
                         Icon(
