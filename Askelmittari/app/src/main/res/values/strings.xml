@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Askelmittari</string>
+    <string name="paused">Paina Play-nappia aloittaaksesi</string>
+    <string name="steps">Askeleita:</string>
+    <string name="askelmittari">Askelmittari</string>
+    <string name="permission_not_granted">Lupaa ei myönnetty</string>
+    <string name="date_history">Päivä: %1$s</string>
+    <string name="steps_history">Askeleita: %1$s</string>
+    <string name="steps_saved">Steps saved</string>
+    <string name="empty_history">Tyhjennä historia</string>
 </resources>
