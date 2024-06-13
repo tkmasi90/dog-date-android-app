@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun runApp() {
 
-        if(!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        if(!mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             Toast.makeText(this, "Laita sijaintitiedot päälle käytääksesi sovellusta",
                 Toast.LENGTH_LONG).show()
         }
@@ -80,22 +81,38 @@ class MainActivity : AppCompatActivity() {
         // Tarkastetaan luvat
         try {
             if (askPermission(this)) {
-                // Haetaan ja päivitetään viimeisin tunnettu sijainti
+                // Haetaan ja päivitetään viimeisin tunnettu sijainti.
                 mLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
                 mLocation?.let { location ->
                     updateLocationTextView(location)
                 }
 
                 // Asetetaan LocationManager pyytämään uusi sijainti 3 sekunnin välein ja kun
-                // sijainti muuttuu vähintään 10m
-                mLocationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    3000,
-                    10f
-                ) { location ->
-                    // Päivitetään koordinaatit kun sijainti muuttuu
-                    mLocation = location
-                    updateLocationTextView(location)
+                // sijainti muuttuu vähintään 10m. Jos laitteen API level on
+                // 31 tai yli käytetään tarkempaa sijantitiedon tarjoajaa
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    mLocationManager.requestLocationUpdates(
+                        LocationManager.FUSED_PROVIDER,
+                        3000,
+                        10f
+                    ) { location ->
+                        // Päivitetään koordinaatit kun sijainti muuttuu
+                        mLocation = location
+                        updateLocationTextView(location)
+                        Log.d(TAG, "Using: LocationManager.FUSED_PROVIDER" )
+                    }
+                } else {
+                    mLocationManager.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER,
+                        3000,
+                        10f
+                    ) { location ->
+                        // Päivitetään koordinaatit kun sijainti muuttuu
+                        mLocation = location
+                        updateLocationTextView(location)
+                        Log.d(TAG, "Using: LocationManager.NETWORK_PROVIDER" )
+                    }
                 }
             }
         } catch (e: SecurityException) {

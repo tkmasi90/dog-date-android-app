@@ -33,7 +33,7 @@ class SavedLocationsActivity : AppCompatActivity() {
         clearSavedButton.setOnClickListener {
             sharedPrefs.emptyHistory()
             locationHistory.clear()
-            locationAdapter.notifyItemRemoved(0)
+            locationAdapter.notifyDataSetChanged()
         }
 
         backButton.setOnClickListener {
