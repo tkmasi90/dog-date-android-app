@@ -3,6 +3,7 @@ package com.example.valuuttalaskuri
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -25,6 +26,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -42,7 +44,6 @@ lateinit var stringRequest: StringRequest
 lateinit var requestQueue: RequestQueue
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -62,16 +63,17 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// Funktio joka ajaa ohjelman
 @Composable
 fun RunApp(paddingValues : PaddingValues) {
-
     val context = LocalContext.current
-    val rates : MutableState<String?> = remember { mutableStateOf(null) }
-    val entries = remember { mutableStateOf<List<Cube>>(emptyList()) }
-    val amount = remember { mutableFloatStateOf(Float.NaN) }
+    val entries = rememberSaveable { mutableStateOf<List<Cube>>(emptyList()) }
+    val amount = rememberSaveable { mutableFloatStateOf(Float.NaN) }
 
-    setUpRequestQueue(context, rates, entries)
+    // Haetaan valuuttatiedot
+    setUpRequestQueue(context, entries)
 
+    // Tuodaan näkyviin input kenttä ja tuloskenttä
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(paddingValues)
@@ -82,18 +84,16 @@ fun RunApp(paddingValues : PaddingValues) {
             amount = amount)
 
         DisplayResults(
-            modifier = Modifier
-            .fillMaxSize()
-            .weight(1f),
             entries = entries.value,
-            amount = amount)
+            amount = amount
+        )
     }
 }
 
 @Composable
 fun DisplayInput(modifier: Modifier = Modifier, amount: MutableFloatState) {
 
-    val inputValue = remember { mutableStateOf("") }
+    val inputValue = rememberSaveable { mutableStateOf("") }
 
     OutlinedTextField(
         modifier = modifier,
@@ -101,13 +101,14 @@ fun DisplayInput(modifier: Modifier = Modifier, amount: MutableFloatState) {
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number),
         onValueChange = {
-            // Update the input value state
+            // Päivitetään inputValue Staten arvo
             inputValue.value = it
-            // Try to parse the float from the input string
+            // Päivtetään amount Staten arvo jos inputValue ei ole NaN
             amount.floatValue = try {
                 it.toFloat()
             } catch (e: NumberFormatException) {
-                Float.NaN // Handle invalid input gracefully
+                Log.d(TAG, "DisplayInput: ${e.message}")
+                Float.NaN
             }
         },
         label = { Text("Syötä summa (€)") }
@@ -115,7 +116,7 @@ fun DisplayInput(modifier: Modifier = Modifier, amount: MutableFloatState) {
 }
 
 @Composable
-fun DisplayResults(modifier: Modifier, entries: List<Cube>, amount: MutableFloatState) {
+fun DisplayResults(entries: List<Cube>, amount: MutableFloatState) {
     LazyColumn(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {
@@ -127,12 +128,12 @@ fun DisplayResults(modifier: Modifier, entries: List<Cube>, amount: MutableFloat
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
 
+                    // Tarkistetaan onko amount NaN tai ei ja päivitetään kenttä sen mukaan
                     val calculatedValue = if (amount.floatValue.isNaN() || amount.floatValue.isInfinite()) {
                         0.0f.toString()
                     } else {
                         (entry.rate * amount.floatValue).toString()
                     }
-
                     Text(text = calculatedValue)
                     Spacer(modifier = Modifier.weight(1f))
                     Text(text = entry.currency)
@@ -145,7 +146,7 @@ fun DisplayResults(modifier: Modifier, entries: List<Cube>, amount: MutableFloat
 @ThemePreviews
 @OrientationPreviews
 @Composable
-fun GreetingPreview() {
+fun AppPreview() {
     val mockAmount : MutableFloatState = remember { mutableFloatStateOf(123.45f) }
     val mockEntries: List<Cube> = listOf(
         Cube("EUR", 1.0f), Cube(
@@ -166,11 +167,9 @@ fun GreetingPreview() {
                         amount = mockAmount)
 
                     DisplayResults(
-                        modifier = Modifier
-                        .fillMaxSize()
-                        .weight(1f),
                         entries = mockEntries,
-                        amount = mockAmount)
+                        amount = mockAmount
+                    )
             }
         }
     }
