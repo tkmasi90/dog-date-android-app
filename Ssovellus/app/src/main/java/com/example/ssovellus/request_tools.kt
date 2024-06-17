@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 @OptIn(DelicateCoroutinesApi::class)
 fun setUpRequestQueue(
     context: Context,
-    location: String,
-    entries: MutableState<Map<String, Pair<MutableList<String>, MutableList<String>>>>,
+    input: String,
+    weatherItem: MutableState<WeatherItem>,
     onEntriesUpdated: () -> Unit
 ) {
 
@@ -36,10 +36,10 @@ fun setUpRequestQueue(
     }
 
     // Luo StringRequest käyttämällä getStringRequest-funktiota, joka hakee XML-sisällön
-    val stringRequest = getStringRequest(location) { xmlContent ->
+    val stringRequest = getStringRequest(input) { xmlContent ->
         kotlinx.coroutines.GlobalScope.launch {
-            val parsedEntries = XMLParser().parseXML(xmlContent.byteInputStream())
-            entries.value = parsedEntries
+            val parsedLocation = XMLParser().parseXML(xmlContent.byteInputStream())
+            weatherItem.value = parsedLocation
             onEntriesUpdated()
         }
     }

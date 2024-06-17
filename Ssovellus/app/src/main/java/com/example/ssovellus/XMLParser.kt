@@ -15,7 +15,7 @@ private const val TAG = "XMLParser"
 class XMLParser {
 
     // Muuttaa XML:n Document instanssiksi jolloin siitä tietojen hakeminen helpottuu
-    suspend fun parseXML(inputStream: InputStream): Map<String, Pair<MutableList<String>, MutableList<String>>> {
+    suspend fun parseXML(inputStream: InputStream): WeatherItem {
         return withContext(Dispatchers.IO) {
             var name = ""
             val times = mutableListOf<String>()
@@ -52,7 +52,7 @@ class XMLParser {
             }
             Log.d(TAG, "parseXML: ${mapOf(name to Pair(times, values))}")
 
-            return@withContext mapOf(name to Pair(times, values))
+            return@withContext WeatherItem(name, times.toList(), values.toList())
         }
     }
 

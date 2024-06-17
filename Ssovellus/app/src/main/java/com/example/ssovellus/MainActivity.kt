@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -29,7 +28,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.volley.RequestQueue
@@ -54,11 +52,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun WeatherApp(modifier: Modifier = Modifier,
-               initialEntries: Map<String, Pair<MutableList<String>, MutableList<String>>> = emptyMap()) {
+fun WeatherApp(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val inputValue = rememberSaveable { mutableStateOf("") }
-    val entries = rememberSaveable { mutableStateOf(initialEntries) }
+    val location = rememberSaveable(stateSaver = WeatherItemSaver) { mutableStateOf(WeatherItem("", emptyList(), emptyList())) }
     val displayWeather = rememberSaveable { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
@@ -92,7 +89,7 @@ fun WeatherApp(modifier: Modifier = Modifier,
                 onClick = {
                     focusManager.clearFocus() // Piilotetaan näppäimistö kun nappulaa painetaan
                     coroutineScope.launch {
-                        setUpRequestQueue(context, inputValue.value.trim(), entries) {
+                        setUpRequestQueue(context, inputValue.value.trim(), location) {
                             displayWeather.value = true
                             inputValue.value = ""
                         }
@@ -104,7 +101,7 @@ fun WeatherApp(modifier: Modifier = Modifier,
 
         // Näytetään sää vasta kun nappia on painettu
         if (displayWeather.value) {
-            if(!displayWeather(entries = entries, modifier = modifier))
+            if(!displayWeather(location = location, modifier = modifier))
             {
                 Toast.makeText(context, "Ei tuloksia", Toast.LENGTH_SHORT).show()
                 displayWeather.value = false
@@ -114,52 +111,51 @@ fun WeatherApp(modifier: Modifier = Modifier,
 }
 // Näyttää paikan ja kolme viimeisintä mittaustulosta. Palauttaa false jos paikkaa ei löydy
 @Composable
-fun displayWeather(entries : MutableState<Map<String, Pair<MutableList<String>, MutableList<String>>>>, modifier: Modifier) : Boolean {
-    if (entries.value.isNotEmpty()) {
-        val firstEntry = entries.value.entries.first()
-        if (firstEntry.value.first.isNotEmpty() && firstEntry.value.second.isNotEmpty()) {
-            Text(
-                text = "Paikka: ${firstEntry.key}",
-                modifier = Modifier.padding(bottom = 16.dp),
-                fontStyle = FontStyle.Italic,
-                fontSize = 20.sp
-            )
+fun displayWeather(location : MutableState<WeatherItem>, modifier: Modifier) : Boolean {
+    if (location.value.location.isNotEmpty() && location.value.time.isNotEmpty() &&
+        location.value.temperature.isNotEmpty()
+    ) {
+        Text(
+            text = "Paikka: ${location.value.location}",
+            modifier = Modifier.padding(bottom = 16.dp),
+            fontStyle = FontStyle.Italic,
+            fontSize = 20.sp
+        )
 
-            for (entry in entries.value.entries) {
-                val times = entry.value.first
-                val temperatures = entry.value.second
+        val times = location.value.time
+        val temperatures = location.value.temperature
 
-                for (i in times.indices) {
-                    Row(verticalAlignment = Alignment.Top,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(bottom = 8.dp)) {
-                        Text(
-                            text = "Aika: ${times.elementAtOrNull(i) ?: "N/A"}",
-                            modifier = Modifier.padding(end = 16.dp)
-                        )
-                        Text(
-                            text = "Lämpötila: ${temperatures.elementAtOrNull(i) ?: "N/A"}",
-                        )
-                    }
-                }
+        for (i in times.indices) {
+            Row(
+                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                Text(
+                    text = "Aika: ${times.elementAtOrNull(i) ?: "N/A"}",
+                    modifier = Modifier.padding(end = 16.dp)
+                )
+                Text(
+                    text = "Lämpötila: ${temperatures.elementAtOrNull(i) ?: "N/A"}",
+                )
             }
-        } else {
-            return false
         }
+
     } else {
         return false
     }
+
     return true
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    val mockData = remember {
-        mapOf("Raahe" to Pair(mutableListOf(
-            "19:40:00", "19:50:00", "20:00:00"
-        ), mutableListOf("11.8", "11.8", "11.8"))) }
-    SääsovellusTheme {
-        WeatherApp(modifier = Modifier, mockData)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    val mockData = remember {
+//        mapOf("Raahe" to Pair(mutableListOf(
+//            "19:40:00", "19:50:00", "20:00:00"
+//        ), mutableListOf("11.8", "11.8", "11.8"))) }
+//    SääsovellusTheme {
+//        WeatherApp(modifier = Modifier, mockData)
+//    }
+//}
