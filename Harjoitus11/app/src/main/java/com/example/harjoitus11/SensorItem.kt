@@ -33,7 +33,8 @@ fun SensorItem(
             text =
             "Type: ${sensorData.type}\n")
         for((num, data) in sensorData.dataList.withIndex()) {
-            if(data != 0.toFloat()) {
+            if(data != 0.toFloat()) // Palautetaan alkion arvo jos se on jotain muuta kuin 0
+            {
                 Text(modifier = Modifier.padding(start = 16.dp),
                     text =
                     "Data $num: $data")

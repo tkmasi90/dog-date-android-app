@@ -16,7 +16,6 @@ import android.util.Log
 
 /* Täytetään lista kaikilla mahdollisilla sensoreilla */
 fun populateSensorList(sensorManager: SensorManager): List<Sensor?> {
-    // REt
     return sensorManager.getSensorList(Sensor.TYPE_ALL)
 
 //    return xyzSensors.map{ sensorManager.getDefaultSensor(it) } +
