@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewTaskukirjaActivity">
+
+    <Button
+        android:id="@+id/button_back"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:backgroundTint="#888686"
+        android:drawableTint="#807F7F"
+        android:foregroundTint="#8C8A8A"
+        android:text="@string/back"
+        android:textColor="@color/black"
+        android:textColorLink="#9E9A9A"
+        app:iconTint="#A3A0A0"
+        app:layout_constraintStart_toStartOf="@+id/edit_painos"
+        app:layout_constraintTop_toBottomOf="@+id/edit_painos"
+        app:rippleColor="#00BCD4" />
+
+    <EditText
+        android:id="@+id/edit_pvm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/date"
+        app:layout_constraintBaseline_toBaselineOf="@+id/edit_painos"
+        app:layout_constraintEnd_toEndOf="@+id/edit_nimi"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/edit_painos" />
+
+    <EditText
+        android:id="@+id/edit_painos"
+        android:layout_width="94dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/painos"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_numero" />
+
+    <EditText
+        android:id="@+id/edit_numero"
+        android:hint="@string/num"
+        android:layout_width="94dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edit_nimi"
+        android:hint="@string/taskukirjan_nimi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/edit_numero"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edit_numero" />
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:text="@string/save"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/edit_pvm"
+        app:layout_constraintTop_toBottomOf="@+id/edit_painos" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
