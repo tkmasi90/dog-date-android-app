@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "596589164442",
+    "firebase_url": "https://koiratreffit-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "koiratreffit",
+    "storage_bucket": "koiratreffit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596589164442:android:9468e5b0791ce1175aac23",
+        "android_client_info": {
+          "package_name": "com.example.koiratreffit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596589164442-c96nddmm3jdajkd0r809levnl6gn6tf9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.koiratreffit",
+            "certificate_hash": "d9160e4829202db2d07c732ed40adf6ddc7a2a52"
+          }
+        },
+        {
+          "client_id": "596589164442-njlhcu5cek44s2adl89dsgrq7kgoe8ag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnRwImioMu8-73TlCt9ZXUlJuHhcw1EjE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596589164442-njlhcu5cek44s2adl89dsgrq7kgoe8ag.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

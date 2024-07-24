@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:foregroundGravity="bottom"
+    android:gravity="bottom|center_horizontal"
+    android:layoutDirection="inherit"
+    android:layoutMode="opticalBounds"
+    android:orientation="vertical"
+    app:layout_anchorGravity="bottom"
+    app:layout_insetEdge="bottom"
+    app:layout_wrapBehaviorInParent="horizontal_only"
+    tools:context=".MapViewActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="0dp"
+        android:background="?attr/colorPrimary"
+        android:foregroundGravity="bottom|center_horizontal"
+        android:gravity="bottom|center_horizontal"
+        android:minHeight="64dp"
+        android:padding="4dp"
+        android:textAlignment="center"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:buttonGravity="center_vertical"
+        app:contentInsetStart="16dp"
+        app:logo="@drawable/baseline_pets_24"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="KoiraTreffit" />
+
+    <FrameLayout
+        android:id="@+id/map_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/mapview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </FrameLayout>
+</LinearLayout>
