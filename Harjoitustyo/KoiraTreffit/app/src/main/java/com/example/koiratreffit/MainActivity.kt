@@ -25,13 +25,13 @@ private const val TAG = "MainActivity"
 private const val MY_PERMISSIONS_REQUEST_LOCATION: Int = 98
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mLocationManager: LocationManager
+    private lateinit var mLocationManager: LocationManager // Sijaintihallinta
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        checkUserAuthentication()
+        checkUserAuthentication() // Tarkista käyttäjän todennus
     }
 
     override fun onRequestPermissionsResult(
@@ -41,11 +41,11 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            MY_PERMISSIONS_REQUEST_LOCATION -> {
+            MY_PERMISSIONS_REQUEST_LOCATION -> { // Tarkista, onko sijaintilupa myönnetty
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Log.d(TAG, "Permission granted")
                     // Permission granted, continue with app execution
-                    runApp()
+                    runApp() // Jatka sovelluksen suorittamista
                 } else {
                     Toast.makeText(this, "Permission is not granted", Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "Permission denied")
@@ -55,12 +55,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkUserAuthentication() {
-        val auth = Firebase.auth
+        val auth = Firebase.auth // Hanki Firebase-todennus
 
-        if (auth.currentUser == null) {
-            redirectToSignInActivity()
+        if (auth.currentUser == null) { // Tarkista, onko käyttäjä kirjautunut
+            redirectToSignInActivity() // Siirrä sisäänkirjautumissivulle, jos ei ole
         } else {
-            runApp()
+            runApp() // Jatka sovelluksen suorittamista
         }
     }
 
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(
                 this, "Laita sijaintitiedot päälle käytääksesi sovellusta",
                 Toast.LENGTH_LONG
-            ).show()
+            ).show() // Ilmoita käyttäjälle, että sijaintitiedot on otettava käyttöön
         }
 
         // Tarkastetaan luvat

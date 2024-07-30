@@ -49,15 +49,18 @@ class MapViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_map)
         val mainView = findViewById<View>(R.id.mapview)
 
+        // Asetetaan ikkunan täytteet pääkarttanäkymälle
         ViewCompat.setOnApplyWindowInsetsListener(mainView) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Asetetaan työkalupalkki
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        // Pyydä tarvittavia lupia sijainnin ja tallennuksen käyttöön
         requestPermissionsIfNecessary(
             arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -72,6 +75,7 @@ class MapViewActivity : AppCompatActivity() {
         setupLocationOverlay(ctx)
         setCustomMarker()
 
+        // Käynnistä coroutine, joka lisää merkkejä kartalle
         CoroutineScope(Dispatchers.Main).launch {
             val locationsDeferred = async { addMarkers() }
             locationsDeferred.await()
@@ -86,8 +90,8 @@ class MapViewActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_logout -> {
-                logout()
+            R.id.action_logout -> { // Tarkista, onko uloskirjautumiskomento valittu
+                logout() // Suorita uloskirjautuminen
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -104,6 +108,7 @@ class MapViewActivity : AppCompatActivity() {
         mMapView.onResume()
     }
 
+    // Pyydä käyttäjältä lupia, jos niitä ei ole myönnetty
     private fun requestPermissionsIfNecessary(permissions: Array<String>) {
         val permissionsToRequest = permissions.filter {
             ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
@@ -118,6 +123,7 @@ class MapViewActivity : AppCompatActivity() {
         }
     }
 
+    // Aseta karttanäkymä ja sen ominaisuudet
     private fun setupMapView() {
         mMapView = findViewById(R.id.mapview)
         mMapView.setTileSource(TileSourceFactory.MAPNIK)
@@ -125,6 +131,7 @@ class MapViewActivity : AppCompatActivity() {
         mMapView.setMultiTouchControls(true)
     }
 
+    // Aseta overlay karttaan
     private fun setupLocationOverlay(ctx: Context) {
         val mapController = mMapView.controller
         val locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(ctx), mMapView)
@@ -136,7 +143,7 @@ class MapViewActivity : AppCompatActivity() {
         val snackbar = Snackbar.make(mMapView, "Haetaan sijaintia", Snackbar.LENGTH_INDEFINITE)
         snackbar.show()
 
-        // Haetaan puhelimen nykyinen sijainti ja keskitetään kartta sen mukaan jahka se on löydetty
+        // Hae puhelimen nykyinen sijainti ja keskitä kartta sen mukaan
         locationOverlay.runOnFirstFix {
             val myLocation = locationOverlay.myLocation
             if (myLocation != null) {
@@ -158,14 +165,16 @@ class MapViewActivity : AppCompatActivity() {
         Markers().getMarkersFromDb(mMapView, this)
     }
 
+    // Aseta mukautettu merkki pitkän painalluksen yhteydessä
     private fun setCustomMarker() {
         val longClickOverlay = LongClickOverlay(mMapView) { point ->
             Log.d(TAG, "Map long-clicked at: ${point.latitude}, ${point.longitude}")
             PopUpWindow().showPopUp(mMapView, point, this)
         }
-        mMapView.overlays.add(longClickOverlay)
+        mMapView.overlays.add(longClickOverlay) // Lisää pitkän painalluksen overlay karttaan
     }
 
+    // Uloskirjautumistoiminto
     private fun logout() {
         FirebaseAuth.getInstance().signOut()
         val intent = android.content.Intent(this, MainActivity::class.java)

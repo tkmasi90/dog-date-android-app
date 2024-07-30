@@ -1,6 +1,5 @@
 package com.example.koiratreffit.karttaUtils
 
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.View
@@ -9,18 +8,18 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import com.example.koiratreffit.R
 import com.example.koiratreffit.chat.ChatActivity
-import com.example.koiratreffit.koirapuistot.Koirapuisto
 import com.example.koiratreffit.tapahtumat.DbTapahtumat
-import com.google.firebase.auth.FirebaseAuth
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow
 
+// Luokka info-ikkunaa varten, jossa kuvataan tapahtumaa tai paikkaa
 class CustomInfoWindow(mapView: MapView?, private val isOwner: Boolean, private val eventClass: Class<Any>) : MarkerInfoWindow(R.layout.bonuspack_bubble, mapView) {
 
-    private var markerKey: String? = null
-    private val chatButton = view.findViewById<Button>(R.id.bubble_chat)
+    private var markerKey: String? = null // Muuttuja, joka tallentaa markerin avaimen
+    private val chatButton = view.findViewById<Button>(R.id.bubble_chat) // Keskustelu-painike infon ikkunassa
 
+    // Funktio, joka suoritetaan, kun info-ikkuna avataan
     override fun onOpen(item: Any) {
         val marker = item as Marker
         val view = view
@@ -41,7 +40,7 @@ class CustomInfoWindow(mapView: MapView?, private val isOwner: Boolean, private 
                 } ?: Log.e("CustomInfoWindow", "Marker key is not set")
             }
         } else {
-            delButton.visibility = View.GONE
+            delButton.visibility = View.GONE // Piilotetaan poistopainike, jos käyttäjä ei ole omistaja
         }
 
         title.text = marker.title
@@ -49,14 +48,15 @@ class CustomInfoWindow(mapView: MapView?, private val isOwner: Boolean, private 
     }
 
     override fun onClose() {
-        // You can add code here if you need to handle what happens when the info window closes
     }
 
+    // Asetetaan markerin avain
     fun setMarkerKey(key: String) {
         this.markerKey = key
         setChatButton(key)
     }
 
+    // Asetetaan Keskustelu-painikkeelle kuuntelija, joka avaa chat-toiminnon
     private fun setChatButton(key: String) {
         chatButton.setOnClickListener {
             val chatActivityIntent = Intent(mapView.context, ChatActivity::class.java)

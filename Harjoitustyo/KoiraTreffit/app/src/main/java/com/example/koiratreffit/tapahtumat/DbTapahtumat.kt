@@ -13,10 +13,13 @@ import org.osmdroid.util.GeoPoint
 private const val TAG = "DbTapahtumat"
 
 class DbTapahtumat {
+    // Hakee nykyisen käyttäjän tiedot
     private val user = FirebaseAuth.getInstance().currentUser
+    // Viittaus "tapahtumat"-tietokannan juureen
     private var dbTap: DatabaseReference = FirebaseDatabase.getInstance().getReference("tapahtumat")
     private var tapList: MutableList<Tapahtuma> = mutableListOf()
 
+    // Suspend-toiminto, joka hakee tapahtumat tietokannasta
     private suspend fun fetchTapahtumat() {
         try {
             val snapshot = dbTap.get().await()
@@ -29,6 +32,7 @@ class DbTapahtumat {
                     ?: "Kuvaus puutttuu"
                 val owner = user?.uid
 
+                // Tarkistetaan, että kaikki tarvittavat kentät ovat olemassa
                 if (key != null && name != null && lat != null && lon != null && owner != null) {
                     tapList.add(Tapahtuma(key, name, lat, lon, description, owner))
 
@@ -40,11 +44,13 @@ class DbTapahtumat {
         }
     }
 
+    // Julkinen suspend-toiminto, joka palauttaa tapahtumat
     suspend fun getTapahtumat(): List<Tapahtuma> {
         fetchTapahtumat()
         return tapList
     }
 
+    // Funktio, joka lisää uuden tapahtuman tietokantaan
     fun dbAddTapahtuma(tapahtuma: Tapahtuma) : String? {
         val key = dbTap.push().key
         if (key != null) {
@@ -54,6 +60,7 @@ class DbTapahtumat {
         return key
     }
 
+    // Funktio, joka poistaa tapahtuman tietokannasta
     fun dbDeleteTapahtuma(key : String) {
         dbTap.child(key).removeValue()
     }

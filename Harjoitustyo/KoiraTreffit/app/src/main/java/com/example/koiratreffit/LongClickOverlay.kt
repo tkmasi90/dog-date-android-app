@@ -5,6 +5,7 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Overlay
 
+// Luokka, joka mahdollistaa pitkän painalluksen käsittelyn kartalla
 class LongClickOverlay(private val mapView: MapView, private val onLongClick: (GeoPoint) -> Unit) : Overlay() {
     override fun onLongPress(e: MotionEvent?, mapView: MapView?): Boolean {
         if (e != null && mapView != null) {

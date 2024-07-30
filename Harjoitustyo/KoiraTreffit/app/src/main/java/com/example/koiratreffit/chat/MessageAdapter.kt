@@ -45,11 +45,13 @@ class MessageAdapter(private val messages: List<Viesti>, private val currentUser
         }
     }
 
+    // ViewHolder lähetetylle viestille
     class SentMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val messageText: TextView = itemView.findViewById(R.id.text_message_body)
         private val dateText: TextView = itemView.findViewById(R.id.text_message_date)
         private val timeText: TextView = itemView.findViewById(R.id.text_message_time)
 
+        // Sidotaan lähetetyn viestin tiedot näkymään
         fun bind(message: Viesti) {
             messageText.text = message.teksti
             dateText.text = message.paiva
@@ -57,12 +59,14 @@ class MessageAdapter(private val messages: List<Viesti>, private val currentUser
         }
     }
 
+    // ViewHolder vastaanotetulle viestille
     class ReceivedMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val messageText: TextView = itemView.findViewById(R.id.text_message_body)
         private val dateText: TextView = itemView.findViewById(R.id.text_message_date)
         private val timeText: TextView = itemView.findViewById(R.id.text_message_time)
         private val senderName: TextView = itemView.findViewById(R.id.text_message_sender)
 
+        // Sidotaan vastaanotetun viestin tiedot näkymään
         fun bind(message: Viesti) {
             messageText.text = message.teksti
             dateText.text = message.paiva

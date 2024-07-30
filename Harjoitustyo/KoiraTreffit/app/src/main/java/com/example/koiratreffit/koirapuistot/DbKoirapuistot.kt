@@ -8,9 +8,12 @@ import kotlinx.coroutines.tasks.await
 private const val TAG = "dbKoirapuisto"
 
 class DbKoirapuistot {
+
+    // Viittaus "koirapuistot"-tietokannan juureen
     private var dbKp: DatabaseReference = FirebaseDatabase.getInstance().getReference("koirapuistot")
     private var kpList: List<Koirapuisto> = emptyList()
 
+    // Suspend-toiminto, joka hakee koirapuistot tietokannasta
     private suspend fun fetchKoirapuistot() {
         try {
             val snapshot = dbKp.get().await()
@@ -22,12 +25,17 @@ class DbKoirapuistot {
                 val description = it.child("kuvaus").getValue(String::class.java) ?: "Kuvaus puutttuu"
                 val key = it.key
 
+                // Tarkistetaan, että kaikki tarvittavat kentät ovat olemassa
                 if (name != null && lat != null && lon != null && key != null) {
                     Log.d(TAG, "Adding koirapuisto: $name")
+
+                    // Luodaan uusi Koirapuisto-olio
                     Koirapuisto(key, name, city, lat, lon, description)
+
                 } else {
                     Log.d(TAG, "Skipping koirapuisto: $name")
-                    null  // Skip this entry if any required field is null
+
+                    null  // Ohitetaan tämä merkintä, jos jokin vaadittu kenttä on tyhjää
                 }
             }
             Log.d(TAG, "Koirapuisto list loaded: $kpList")
@@ -36,10 +44,9 @@ class DbKoirapuistot {
         }
     }
 
+    // Julkinen suspend-toiminto, joka palauttaa koirapuistot
     suspend fun getKoirapuistot(): List<Koirapuisto> {
-
         fetchKoirapuistot()
-
         return kpList
     }
 

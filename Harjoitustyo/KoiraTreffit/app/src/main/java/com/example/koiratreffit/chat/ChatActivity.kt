@@ -47,6 +47,7 @@ class ChatActivity : AppCompatActivity() {
         messageAdapter = MessageAdapter(messageList, user)
         messageRecyclerView.adapter = messageAdapter
 
+        // Haetaan luokan tyyppi intentistä ja valitaan sen perusteella tietokantaosoite
         val classTypeString = intent.getStringExtra("classType")
         classType = when (classTypeString) {
             Koirapuisto::class.java.simpleName -> dbRef = FirebaseDatabase.getInstance().getReference("koirapuistot")
@@ -56,7 +57,7 @@ class ChatActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             fetchMessages()
-            addValueEventListener()
+            addValueEventListener() // Lisätään listener viestien päivityksille
         }
 
         buttonSend.setOnClickListener {
@@ -64,14 +65,16 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    // Haetaan viestit tietokannasta
     private suspend fun fetchMessages() {
         val snapshot = dbRef.child(key).child("viestit").get().await()
         val messages = addMessages(snapshot)
         messageList.clear()
         messageList.addAll(messages)
-        messageAdapter.notifyDataSetChanged()
+        messageAdapter.notifyDataSetChanged() // Ilmoitetaan adapterille, että data on muuttunut
     }
 
+    // Funktio, joka muuntaa DataSnapshotin viesteiksi
     private fun addMessages(snapshot: DataSnapshot) : List<Viesti> {
         return snapshot.children.mapNotNull {
             val messageText = it.child("teksti").getValue(String::class.java)
@@ -80,32 +83,34 @@ class ChatActivity : AppCompatActivity() {
             val date = it.child("paiva").getValue(String::class.java) ?: "Unknown"
             val time = it.child("kello").getValue(String::class.java) ?: "Unknown"
 
+            // Jos kaikki tarvittavat tiedot löytyvät, luodaan Viesti-olio
             if (messageText != null && senderID != null && senderName != null) {
                 Viesti(messageText, senderID, senderName, date, time)
             } else {
-                null
+                null // Palautetaan null, jos tarvittavat tiedot eivät ole saatavilla
             }
 
         }
     }
 
+    // Funktio, joka lisää kuuntelijan viestien päivityksille
     private fun addValueEventListener() {
         dbRef.child(key).child("viestit").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val messages = addMessages(snapshot)
                 messageList.clear()
                 messageList.addAll(messages)
-                messageAdapter.notifyDataSetChanged()
+                messageAdapter.notifyDataSetChanged() // Ilmoitetaan adapterille, että data on muuttunut
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle error if needed
             }
         })
     }
 
+    // Funktio viestin lähettämiseen
     private fun sendMessage(targetID: String) {
-        val messageText = editTextMessage.text.toString().trim()
+        val messageText = editTextMessage.text.toString().trim() // Haetaan syötetty viesti
         if (messageText.isNotEmpty()) {
 
             val timestamp = System.currentTimeMillis()
@@ -114,7 +119,9 @@ class ChatActivity : AppCompatActivity() {
             val formattedDate = date.format(timestamp)
             val formattedTime = time.format(timestamp)
 
+            // Luodaan uusi Viesti-olio
             val message = Viesti(messageText, user.uid, user.displayName.toString(), formattedDate, formattedTime)
+            // Lisätään viesti tietokantaan
             dbRef.child(targetID).child("viestit").push().setValue(message)
 
             editTextMessage.text.clear()
