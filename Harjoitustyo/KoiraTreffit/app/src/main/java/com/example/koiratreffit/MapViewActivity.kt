@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -38,12 +41,6 @@ private const val MY_PERMISSIONS_REQUEST_LOCATION: Int = 98
 class MapViewActivity : AppCompatActivity() {
 
     private lateinit var mMapView: MapView
-
-    private val user = FirebaseAuth.getInstance().currentUser
-    private val uid = user?.uid
-
-    private var dbTap: DatabaseReference = FirebaseDatabase.getInstance().getReference("tapahtumat")
-    private var dbViestit: DatabaseReference = FirebaseDatabase.getInstance().getReference("viestit")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +76,22 @@ class MapViewActivity : AppCompatActivity() {
             val locationsDeferred = async { addMarkers() }
             locationsDeferred.await()
         }
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                logout()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onPause() {
@@ -152,6 +164,13 @@ class MapViewActivity : AppCompatActivity() {
             PopUpWindow().showPopUp(mMapView, point, this)
         }
         mMapView.overlays.add(longClickOverlay)
+    }
+
+    private fun logout() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = android.content.Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
 

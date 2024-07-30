@@ -10,6 +10,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
 
@@ -49,10 +50,8 @@ class SignInActivity : AppCompatActivity() {
             Log.d(TAG, "Sign in successful!")
             goToMainActivity()
         } else {
-            Toast.makeText(
-                this,
-                "There was an error signing in",
-                Toast.LENGTH_LONG).show()
+            Log.e(TAG, "Sign in failed with result: ${result.idpResponse}")
+            Toast.makeText(this, "There was an error signing in", Toast.LENGTH_LONG).show()
 
             val response = result.idpResponse
             if (response == null) {

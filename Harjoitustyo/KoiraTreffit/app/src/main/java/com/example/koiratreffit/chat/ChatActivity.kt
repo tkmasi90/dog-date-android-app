@@ -109,7 +109,7 @@ class ChatActivity : AppCompatActivity() {
         if (messageText.isNotEmpty()) {
 
             val timestamp = System.currentTimeMillis()
-            val time = SimpleDateFormat("hh:mm", Locale.getDefault())
+            val time = SimpleDateFormat("HH:mm", Locale.getDefault())
             val date = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
             val formattedDate = date.format(timestamp)
             val formattedTime = time.format(timestamp)

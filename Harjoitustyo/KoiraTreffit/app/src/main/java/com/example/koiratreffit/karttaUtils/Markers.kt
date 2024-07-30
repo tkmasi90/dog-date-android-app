@@ -84,7 +84,7 @@ class Markers {
         val tapahtuma = Tapahtuma(nimi = title, lat = point.latitude, lon = point.longitude, kuvaus = description, omistaja = user?.uid.toString())
         val key = DbTapahtumat().dbAddTapahtuma(tapahtuma) ?: return false
 
-        val marker = createMarker(mMapView, context, tapahtuma.javaClass, R.drawable.baseline_emoji_events_24, true, key)
+        val marker = createMarker(mMapView, context, tapahtuma, R.drawable.baseline_emoji_events_24, true, key)
         mMapView.overlays.add(marker)
         mMapView.invalidate()
         return true

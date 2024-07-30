@@ -15,24 +15,19 @@
     app:layout_wrapBehaviorInParent="horizontal_only"
     tools:context=".MapViewActivity">
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="0dp"
+        android:layout_gravity="center_horizontal"
         android:background="?attr/colorPrimary"
-        android:foregroundGravity="bottom|center_horizontal"
-        android:gravity="bottom|center_horizontal"
-        android:minHeight="64dp"
+        android:fitsSystemWindows="true"
         android:padding="4dp"
-        android:textAlignment="center"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:buttonGravity="center_vertical"
-        app:contentInsetStart="16dp"
-        app:logo="@drawable/baseline_pets_24"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="KoiraTreffit" />
+        app:title="KoiraTreffit"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
 
     <FrameLayout
         android:id="@+id/map_container"

@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        runApp()
+        checkUserAuthentication()
     }
 
     override fun onRequestPermissionsResult(
@@ -52,6 +52,22 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun checkUserAuthentication() {
+        val auth = Firebase.auth
+
+        if (auth.currentUser == null) {
+            redirectToSignInActivity()
+        } else {
+            runApp()
+        }
+    }
+
+    private fun redirectToSignInActivity() {
+        val intent = Intent(this, SignInActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun runApp() {
