@@ -1,4 +1,2 @@
-COMP.CS.220 Mobile Programming
-Mobiiliohjelmointi 2024 -kurssi
-
-More information mika.saari@tuni.fi
+# dog-date-android-app
+A social media service through which different dog owners can search for play/hobby companions for their own dogs. The application uses Google Firebase to store data and authenticate users.
